@@ -1,0 +1,30 @@
+{% extends "layout.html" %}
+{% block title %}{{ content.title }}{% endblock title %}
+{% block content %}
+
+<form method='post' action="#">
+    {% csrf_token %}
+    <div class="view-page-header">
+        <div class="header-title">
+            <input type="text" name="content-heading" class='content-heading' value="{{ content.title }}">
+        </div>
+        <div class="header-buttons">
+            <button class="delete-but" name='del{{ content.slug }}' value='clicked'>🗑</button>
+            {% if content.favourite %}
+                <button type='submit' class='fav-but' name='unfav{{ content.slug }}' value='clicked'>★</button>
+            {% else %}
+                <button type='submit' class='fav-but' name='fav{{ content.slug }}' value='clicked'>☆</button>
+            {% endif %}
+        </div>
+    </div>
+    
+    <div class="view-page-main-content">
+        <textarea name="note-body" class='note-body'>{{ content.body }}</textarea>
+    </div>
+    
+    <div class="view-page-save">
+        <button class='save-but' type='submit' name='save-but' value='save'>Save</button>
+    </div>
+</form>
+
+{% endblock content %}

@@ -1,0 +1,15 @@
+{% extends "layout.html" %}
+
+{% block title %}Create Content{% endblock title %}
+
+{% block content %}
+    <div class='create_content_main'>
+        <h1>Create Content</h1>
+        <div href='create-choice-container'>
+            <a href="{% url 'Content:create_note' %}" class="create-choice-box">New Note</a>
+        </div>
+        <div href='create-choice-container'>
+            <a href="{% url 'Content:create_todolist' %}" class="create-choice-box">New To Do List</a>
+        </div>
+    </div>
+{% endblock content %}

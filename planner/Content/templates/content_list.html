@@ -1,0 +1,37 @@
+{% extends "layout.html" %}
+
+{% block title %}{{ page_title }}{% endblock title %}
+{% block content %}
+    <div class="page-header">
+        <h1 class="page-heading">{{ page_heading }}</h1>
+        <div class="create-page-container">
+            <a href="{% url "Content:create_content" %}"> Create </a>
+        </div>
+    </div>
+    <div class="content-list">
+        {% for content in contents %}
+        <div class="content-box">
+            <a href="{% url 'Content:content_page' slug=content.slug %}" class="content-link">
+                <h2 class="content-title">{{ content.title }}</h2>
+            </a>
+            <div class="content-details">
+                <div class="content-info">
+                    <p class="content-date">{{ content.date }}</p>
+                    <p class="content-type">{{ content.get_content_type }}</p>
+                </div>
+                <div class="content-actions">
+                    <form action="{% url 'Content:home' %}" method="post" class="action-form">
+                        {% csrf_token %}
+                        <button type="submit" class="delete-but" name="del{{ content.slug }}" value="clicked">🗑</button>
+                        {% if content.favourite %}
+                            <button type="submit" class="fav-but" name="unfav{{ content.slug }}" value="clicked">★</button>
+                        {% else %}
+                            <button type="submit" class="fav-but" name="fav{{ content.slug }}" value="clicked">☆</button>
+                        {% endif %}
+                    </form>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+{% endblock content %}

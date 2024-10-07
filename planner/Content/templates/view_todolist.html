@@ -1,0 +1,43 @@
+{% extends "layout.html" %}
+{% block title %}{{ content.title }}{% endblock title %}
+{% block content %}
+
+<form method='post' action="#" class='view-page-form'>
+    {% csrf_token %}
+    <div class="view-page-header">
+        <div class="header-title">
+            <input type="text" name="content-heading" class='content-heading' value="{{ content.title }}">
+        </div>
+        <div class="header-buttons">
+            {% if content.favourite %}
+                <button class='fav-but' name='unfav{{ content.slug }}' value='clicked'>★</button>
+            {% else %}
+                <button class='fav-but' name='fav{{ content.slug }}' value='clicked'>☆</button>
+            <button class="delete-but" name='del{{ content.slug }}' value='clicked'>🗑</button>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="view-page-main-content">
+        <ul class='task-list'>
+            {% for task in content.tasks.all %}
+                <li class="task-item {% if task.complete %}completed{% endif %}">
+                    <input type="checkbox" value='clicked' name='task-completion{{ task.id }}' class='task-completion' {% if task.completion %}checked{% endif %}>
+                    <input type="text" name='task-body{{ task.id }}' class='task-body' value="{{ task.body }}">
+                    <button type='submit' name='delete-task{{ task.id }}' value='delete' class='delete-task'>🗑</button>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <div class="view-page-adder">
+        <button type='submit' name='add-task' value='added' class='add-task'>+</button>
+        <input type="text" name='add-body' class='add-body'>
+    </div>
+
+    <div class="view-page-save">
+        <button class='save-but' type='submit' name='save-but' value='save'>Save</button>
+    </div>
+</form>
+
+{% endblock content %}
